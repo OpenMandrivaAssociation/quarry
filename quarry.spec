@@ -11,7 +11,6 @@ Group:		Games/Boards
 URL:		http://home.gna.org/quarry/
 Source0:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz.sig
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	gtk+2-devel
 BuildRequires:	librsvg2-devel
 BuildRequires:	scrollkeeper
