@@ -37,16 +37,16 @@ of board game-playing engines for enhancing their programs.
 rm -rf %{buildroot}
 %makeinstall_std
 
-mkdir -p %{buildroot}%{_menudir}
-cat << _EOF_ > %{buildroot}%{_menudir}/%{name}
-?package(%{name}): \
- command="%{_gamesbindir}/%{name}" \
- icon="strategy_section.png" \
- longtitle="Universal board game interface" \
- needs="x11" \
- section="More Applications/Games/Boards" \
- title="Quarry"
-_EOF_
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
+cat << EOF > %buildroot%{_datadir}/applications/mandriva-%{name}.desktop
+[Desktop Entry]
+Type=Application
+Exec=%{_gamesbindir}/%{name}
+Icon=strategy_section
+Comment=Universal board game interface
+Categories=BoardGame;
+Name=Quarry
+EOF
 
 %find_lang %{name} --with-gnome
 
@@ -67,5 +67,5 @@ rm -rf %{buildroot}
 %{_gamesbindir}/*
 %{_datadir}/%{name}
 %{_datadir}/omf/*
-%{_menudir}/%{name}
+%{_datadir}/applications/mandriva-%{name}.desktop
 
