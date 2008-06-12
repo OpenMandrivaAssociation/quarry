@@ -50,13 +50,17 @@ EOF
 
 %find_lang %{name} --with-gnome
 
+%if %mdkversion < 200900
 %post
 %update_menus
 %update_scrollkeeper
+%endif
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
 %clean_scrollkeeper
+%endif
 
 %clean
 rm -rf %{buildroot}
