@@ -1,4 +1,4 @@
-%define version 0.1.15
+%define version 0.2.0
 %define rel	1
 %define release %mkrel %rel
 
@@ -6,15 +6,17 @@ Summary:	GUI Frontend of Go, Amazons and Othello
 Name:		quarry
 Version:	%{version}
 Release:	%{release}
-License:	GPL
+License:	GPLv2+
 Group:		Games/Boards
 URL:		http://home.gna.org/quarry/
 Source0:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz.sig
+Patch0:		quarry-0.2.0-fix-str-fmt.patch
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	gtk+2-devel
 BuildRequires:	librsvg2-devel
 BuildRequires:	scrollkeeper
+BuildRequires:	desktop-file-utils
 Requires(post,postun):		scrollkeeper
 
 %description
@@ -28,25 +30,26 @@ of board game-playing engines for enhancing their programs.
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
-%configure2_5x --bindir=%{_gamesbindir}
+%configure --bindir=%{_gamesbindir}
 %make
 
 %install
 rm -rf %{buildroot}
 %makeinstall_std
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
-cat << EOF > %buildroot%{_datadir}/applications/mandriva-%{name}.desktop
-[Desktop Entry]
-Type=Application
-Exec=%{_gamesbindir}/%{name}
-Icon=strategy_section
-Comment=Universal board game interface
-Categories=BoardGame;
-Name=Quarry
-EOF
+# Fix desktop file
+sed -i -e 's/%{name}.png/%{name}/' \
+	%{buildroot}%{_datadir}/applications/%{name}.desktop
+desktop-file-install \
+	--remove-key=Encoding \
+	--remove-key=Version \
+	--remove-category=Application \
+	--add-category=X-MandrivaLinux-MoreApplications-Games-Boards \
+	--dir %{buildroot}%{_datadir}/applications \
+	%{buildroot}%{_datadir}/applications/*
 
 %find_lang %{name} --with-gnome
 
@@ -54,12 +57,14 @@ EOF
 %post
 %update_menus
 %update_scrollkeeper
+%update_mime_database
 %endif
 
 %if %mdkversion < 200900
 %postun
 %clean_menus
 %clean_scrollkeeper
+%clean_mime_database
 %endif
 
 %clean
@@ -67,9 +72,12 @@ rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS ChangeLog NEWS README
-%{_gamesbindir}/*
+%doc AUTHORS COPYING COPYING-DOC ChangeLog NEWS README
+%doc THANKS TODO
+%{_gamesbindir}/%{name}
 %{_datadir}/%{name}
-%{_datadir}/omf/*
-%{_datadir}/applications/mandriva-%{name}.desktop
+%{_datadir}/pixmaps/%{name}.png
+%{_datadir}/mime/packages/%{name}.xml
+%{_datadir}/omf/%{name}
+%{_datadir}/applications/%{name}.desktop
 
