@@ -1,0 +1,11 @@
+--- src/utils/parse-list.c.ori	2009-05-15 05:26:29.000000000 +0200
++++ src/utils/parse-list.c	2009-05-15 05:28:09.000000000 +0200
+@@ -162,7 +162,7 @@
+     switch (option) {
+     case OPTION_HELP:
+       print_usage (stdout);
+-      printf (help_string);
++      printf ("%s", help_string);
+ 
+       result = 0;
+       goto exit_parse_list_main;
