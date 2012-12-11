@@ -12,9 +12,8 @@ URL:		http://home.gna.org/quarry/
 Source0:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz.sig
 Patch0:		quarry-0.2.0-fix-str-fmt.patch
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	gtk+2-devel
-BuildRequires:	librsvg2-devel
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	scrollkeeper
 BuildRequires:	desktop-file-utils
 Requires(post,postun):		scrollkeeper
@@ -37,7 +36,6 @@ of board game-playing engines for enhancing their programs.
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
 
 # Fix desktop file
@@ -53,31 +51,11 @@ desktop-file-install \
 
 %find_lang %{name} --with-gnome
 
-%if %mdkversion < 200900
-%post
-%update_menus
-%update_scrollkeeper
-%update_mime_database
-%endif
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%clean_scrollkeeper
-%clean_mime_database
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc AUTHORS COPYING COPYING-DOC ChangeLog NEWS README
 %doc THANKS TODO
 %{_gamesbindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/pixmaps/%{name}.png
 %{_datadir}/mime/packages/%{name}.xml
-%{_datadir}/omf/%{name}
 %{_datadir}/applications/%{name}.desktop
-
