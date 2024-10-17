@@ -8,7 +8,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPLv2+
 Group:		Games/Boards
-URL:		http://home.gna.org/quarry/
+URL:		https://home.gna.org/quarry/
 Source0:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz.sig
 Patch0:		quarry-0.2.0-fix-str-fmt.patch
