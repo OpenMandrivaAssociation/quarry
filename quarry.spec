@@ -12,6 +12,11 @@ URL:		https://home.gna.org/quarry/
 Source0:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.gna.org/%{name}/%{name}-%{version}.tar.gz.sig
 Patch0:		quarry-0.2.0-fix-str-fmt.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	scrollkeeper
